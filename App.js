@@ -1,20 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { TabNavigator, StackNavigator  } from 'react-navigation';
-import { FontAwesome, Ionicons } from '@expo/vector-icons'
+import {StyleSheet, Text, View} from 'react-native';
+import {TabNavigator, StackNavigator} from 'react-navigation';
+import {FontAwesome, Ionicons} from '@expo/vector-icons'
 import AddDeck from './components/AddDeck'
 import Decks from './components/Decks'
-import { initAsyncStore } from './utils/api'
+import {initAsyncStore} from './utils/api'
 import Deck from './components/Deck.js'
 import AddCard from './components/AddCard.js'
 import Quiz from './components/Quiz.js'
-import { setLocalNotification } from './utils/notifications'
+import {setLocalNotification} from './utils/notifications'
 
 const Tabs = TabNavigator({
   Decks: {
     screen: Decks,
     navigationOptions: {
-      tabBarLabel: 'Decks',
+      tabBarLabel: 'Decks'
     }
   },
   NewDeck: {
@@ -41,21 +41,22 @@ const MainNavigator = StackNavigator({
   Quiz: {
     screen: Quiz,
     navigationOptions: {
-      title: "Quiz",
+      title: "Quiz"
     }
   }
 })
 
-
 export default class App extends React.Component {
-  componentDidMount(){
+  componentDidMount() {
     setLocalNotification()
   }
 
   render() {
     return (
-      <View style={{flex: 1}}>
-         < MainNavigator />
+      <View style={{
+        flex: 1
+      }}>
+        < MainNavigator/>
       </View>
     );
   }
@@ -65,11 +66,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   text: {
     justifyContent: 'center',
     alignItems: 'center'
-  },
-
+  }
 })
