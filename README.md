@@ -28,6 +28,10 @@ To start the app.
 $ yarn start
 ```
 
+## Tested Platforms
+
+The app has been tested on the IOS device (IPhone 7 and IPAD Air2 with IOS 11.2). 
+
 ## Available Scripts
 
 If Yarn was installed when the project was initialized, then dependencies will have been installed via Yarn, and you should probably use it to run these commands as well. Unlike dependency installation, command running syntax is identical for Yarn and NPM at the time of this writing.
