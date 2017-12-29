@@ -13,7 +13,6 @@ import {connect} from 'react-redux'
 
 class Quiz extends Component {
   state = {
-    question: [],
     index: 0,
     displayResults: false,
     displayQuestion: true,
@@ -30,7 +29,8 @@ class Quiz extends Component {
 
   nextDeck = () => {
     let currentIndex = this.state.index
-    if (this.state.question.length - 1 > this.state.index) {
+    const deckId = this.props.navigation.state.params.deckId
+    if (this.props.decks[deckId]["questions"].length - 1 > this.state.index) {
       this.setState({
         index: currentIndex + 1
       })
@@ -76,7 +76,7 @@ class Quiz extends Component {
                           </Text>
                           <Button onPress={this.displayQuestion} title="Question"/>
                         </View>
-}
+                        }
                       <Button style={{}} onPress={this.correct} title="Correct"/>
                       <Button onPress={this.nextDeck} title="Incorrect"/>
                     </View>
@@ -90,14 +90,14 @@ class Quiz extends Component {
                   <Button onPress={() => this.props.navigation.goBack()} title="Back to Deck"/>
                   <Button onPress={() => this.props.navigation.navigate('Home')} title="Home"/>
                 </View>
-}
+              }
             </View>
           : <View>
             <Text>
               No Decks
             </Text>
           </View>
-}
+        }
       </View>
     )
   }

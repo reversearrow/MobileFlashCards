@@ -15,17 +15,18 @@ class Decks extends Component {
 
   componentDidMount() {
     fetchAllDecks().then((decks) => {
-      Object
+      if(decks)
+      {Object
         .keys(decks)
         .map((key) => this.props.dispatch(addNewDeck({deckId: key, title: decks[key]['title'], questions: decks[key]['questions']
-        })))
+        })))}
     })
   }
 
   render() {
     return (
       <ScrollView style={styles.container}>
-        {this.props.decks !== null
+        {this.props.decks !== null && this.props.decks !== {}
           ? Object
             .keys(this.props.decks)
             .sort()
