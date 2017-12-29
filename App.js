@@ -9,6 +9,9 @@ import Deck from './components/Deck.js'
 import AddCard from './components/AddCard.js'
 import Quiz from './components/Quiz.js'
 import {setLocalNotification} from './utils/notifications'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import reducer from './reducers'
 
 const Tabs = TabNavigator({
   Decks: {
@@ -53,11 +56,11 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <View style={{
-        flex: 1
-      }}>
+
+      <View style={{flex: 1}}>
         < MainNavigator/>
       </View>
+
     );
   }
 }

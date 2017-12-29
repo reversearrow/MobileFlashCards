@@ -14,11 +14,13 @@ export default class Decks extends Component {
     decks: {}
   }
 
+  /*
   componentDidMount() {
     fetchAllDecks().then((decks) => {
+      console.log(decks)
       this.setState({decks})
     })
-  }
+  }*/
 
   render() {
     return (

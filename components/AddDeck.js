@@ -8,8 +8,10 @@ import {
   Button
 } from 'react-native'
 import {saveDeckTitle} from '../utils/api'
+import {connect} from 'react-redux';
+import {addNewDeck} from '../actions/'
 
-export default class AddDeck extends Component {
+class AddDeck extends Component {
   state = {
     input: ''
   }
@@ -20,7 +22,8 @@ export default class AddDeck extends Component {
 
   submit = () => {
     if (this.state.input) {
-      saveDeckTitle(this.state.input)
+      this.props.addNewDeck(this.state.input)
+      //saveDeckTitle(this.state.input)
       this
         .props
         .navigation
@@ -65,3 +68,11 @@ const styles = StyleSheet.create({
     margin: 50
   }
 })
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewDeck: (data) => dispatch(addNewDeck(data)),
+  }
+}
+
+export default connect(mapDispatchToProps)(RootView)

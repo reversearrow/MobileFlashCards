@@ -12,12 +12,12 @@ export default class Deck extends Component {
     const {title} = navigation.state.params
     return {title: title}
   }
-
+  /*
   componentDidMount() {
     fetchDeck(this.props.navigation.state.params.deckId).then((value) => {
       this.setState({title: value["title"], totalDecks: value["questions"].length})
     })
-  }
+  }*/
 
   render() {
     return (
