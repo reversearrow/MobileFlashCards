@@ -8,8 +8,10 @@ import {
   Button
 } from 'react-native'
 import {addCardToDeck} from '../utils/api'
+import {addNewCard} from '../actions'
+import {connect} from 'react-redux';
 
-export default class AddCard extends Component {
+class AddCard extends Component {
   state = {
     question: '',
     answer: ''
@@ -26,9 +28,15 @@ export default class AddCard extends Component {
   submit = () => {
     const deck = {}
     if (this.state.question !== '' && this.state.answer !== '') {
-      deck['question'] = this.state.question
-      deck['answer'] = this.state.answer
-      addCardToDeck(this.props.navigation.state.params.title, deck)
+      const deckId = this.props.navigation.state.params.deckId
+      const question = this.state.question
+      const answer = this.state.answer
+      deck['question'] = question
+      deck['answer'] = answer
+      addCardToDeck(deckId, deck)
+      this
+        .props
+        .dispatch(addNewCard({deckId, question, answer}))
       this
         .props
         .navigation
@@ -70,3 +78,5 @@ const styles = StyleSheet.create({
     borderColor: '#757575'
   }
 })
+
+export default connect()(AddCard)

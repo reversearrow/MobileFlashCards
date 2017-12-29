@@ -12,7 +12,7 @@ export function initAsyncStore() {
     })
 }
 
-export function saveDeckTitle(id) {
+export function saveDeckTitle(id){
   AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify({
     [id]: {
       'title': id,

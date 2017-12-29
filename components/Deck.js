@@ -1,42 +1,35 @@
 import React, {Component} from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, Button} from 'react-native'
 import {fetchDeck} from '../utils/api'
+import {connect} from 'react-redux';
 
-export default class Deck extends Component {
-  state = {
-    title: '',
-    totalDecks: 0
-  }
-
+class Deck extends Component {
   static navigationOptions = ({navigation}) => {
     const {title} = navigation.state.params
     return {title: title}
   }
 
-  componentDidMount() {
-    fetchDeck(this.props.navigation.state.params.deckId).then((value) => {
-      this.setState({title: value["title"], totalDecks: value["questions"].length})
-    })
-  }
-
   render() {
+    const deckId = this.props.navigation.state.params.deckId
+    const title = this.props.decks[deckId]['title']
+    const totalDecks = this.props.decks[deckId]['questions'].length
     return (
       <View style={styles.container}>
         <Text style={styles.header}>
-          {this.state.title}</Text>
+          {title}</Text>
         <Text style={styles.cards}>
-          {this.state.totalDecks}
-          cards</Text>
+          {`${totalDecks} cards`}
+        </Text>
         <View style={styles.addCard}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('AddCard', {title: this.state.title})}>
+            onPress={() => this.props.navigation.navigate('AddCard', {deckId: deckId})}>
             <Text>
               Add Card</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.startQuiz}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Quiz', {deckId: this.props.navigation.state.params.deckId})}>
+            onPress={() => this.props.navigation.navigate('Quiz', {deckId: deckId})}>
             <Text style={{
               color: 'white'
             }}>
@@ -76,3 +69,9 @@ styles = StyleSheet.create({
     backgroundColor: 'black'
   }
 })
+
+function mapStateToProps(decks) {
+  return {decks: decks}
+}
+
+export default connect(mapStateToProps)(Deck)

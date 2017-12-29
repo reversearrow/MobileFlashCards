@@ -9,8 +9,9 @@ import {
 } from 'react-native'
 import {fetchDeck} from '../utils/api'
 import {clearLocalNotification, setLocalNotification} from '../utils/notifications'
+import {connect} from 'react-redux'
 
-export default class Quiz extends Component {
+class Quiz extends Component {
   state = {
     question: [],
     index: 0,
@@ -50,32 +51,28 @@ export default class Quiz extends Component {
     this.setState({index: 0, displayResults: false, displayQuestion: true, correct: 0})
   }
 
-  componentDidMount() {
-    fetchDeck(this.props.navigation.state.params.deckId).then((value) => {
-      this.setState({question: value["questions"]})
-    })
-    clearLocalNotification().then(setLocalNotification)
-  }
-
   render() {
-    let totalDecks = this.state.question.length
+    clearLocalNotification().then(setLocalNotification)
+    const deckId = this.props.navigation.state.params.deckId
+    const questions = this.props.decks[deckId]["questions"]
+    const totalDecks = questions.length
     return (
       <View style={styles.container}>
         {totalDecks > 0
           ? <View>
               {!this.state.displayResults
                 ? <View>
-                    <Text>{this.state.index + 1}/{this.state.question.length}</Text>
+                    <Text>{this.state.index + 1}/{questions.length}</Text>
                     <View>
                       {this.state.displayQuestion
                         ? <View>
                             <Text>
-                              {this.state.question[this.state.index]["question"]}</Text>
+                              {questions[this.state.index]["question"]}</Text>
                             <Button onPress={this.displayAnswer} title="Answer"/>
                           </View>
                         : <View>
                           <Text>
-                            {this.state.question[this.state.index]["answer"]}
+                            {questions[this.state.index]["answer"]}
                           </Text>
                           <Button onPress={this.displayQuestion} title="Question"/>
                         </View>
@@ -113,3 +110,9 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 })
+
+function mapStateToProps(decks) {
+  return {decks: decks}
+}
+
+export default connect(mapStateToProps)(Quiz)

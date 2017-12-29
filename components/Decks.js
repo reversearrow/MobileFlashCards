@@ -8,36 +8,38 @@ import {
   ScrollView
 } from 'react-native'
 import {fetchAllDecks} from '../utils/api'
+import {connect} from 'react-redux'
+import {addNewDeck} from '../actions'
 
-export default class Decks extends Component {
-  state = {
-    decks: {}
-  }
+class Decks extends Component {
 
   componentDidMount() {
     fetchAllDecks().then((decks) => {
-      this.setState({decks})
+      Object
+        .keys(decks)
+        .map((key) => this.props.dispatch(addNewDeck({deckId: key, title: decks[key]['title'], questions: decks[key]['questions']
+        })))
     })
   }
 
   render() {
     return (
       <ScrollView style={styles.container}>
-        {this.state.decks !== null
+        {this.props.decks !== null
           ? Object
-            .keys(this.state.decks)
+            .keys(this.props.decks)
             .sort()
-            .map((deck) => <View key={this.state.decks[deck]['title']} style={styles.deck}>
+            .map((deck) => <View key={this.props.decks[deck]['title']} style={styles.deck}>
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('Deck', {
-                deckId: this.state.decks[deck]['title'],
-                title: this.state.decks[deck]['title']
+                deckId: this.props.decks[deck]['title'],
+                title: this.props.decks[deck]['title']
               })}>
                 <Text style={styles.title}>
-                  {this.state.decks[deck]['title']}
+                  {this.props.decks[deck]['title']}
                 </Text>
                 <Text style={styles.cards}>
-                  {`${this.state.decks[deck]['questions'].length} cards`}
+                  {`${this.props.decks[deck]['questions'].length} cards`}
                 </Text>
               </TouchableOpacity>
             </View>)
@@ -66,3 +68,9 @@ const styles = StyleSheet.create({
     fontSize: 18
   }
 })
+
+function mapStateToProps(decks) {
+  return {decks: decks}
+}
+
+export default connect(mapStateToProps)(Decks)

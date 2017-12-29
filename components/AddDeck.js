@@ -8,8 +8,10 @@ import {
   Button
 } from 'react-native'
 import {saveDeckTitle} from '../utils/api'
+import {connect} from 'react-redux';
+import {addNewDeck} from '../actions'
 
-export default class AddDeck extends Component {
+class AddDeck extends Component {
   state = {
     input: ''
   }
@@ -21,12 +23,20 @@ export default class AddDeck extends Component {
   submit = () => {
     if (this.state.input) {
       saveDeckTitle(this.state.input)
+      const deckId = this.state.input
+      const title = this.state.input
+      const questions = []
+      if (!this.props.decks.hasOwnProperty(deckId)) {
+        this
+          .props
+          .dispatch(addNewDeck({deckId, title, questions}))
+      }
       this
         .props
         .navigation
         .navigate('Deck', {
-          deckId: this.state.input,
-          title: this.state.input
+          deckId: deckId,
+          title: title
         })
     }
   }
@@ -65,3 +75,8 @@ const styles = StyleSheet.create({
     margin: 50
   }
 })
+
+function mapStateToProps(decks) {
+  return {decks: decks}
+}
+export default connect(mapStateToProps)(AddDeck)
